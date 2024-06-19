@@ -1,1 +1,12 @@
 <p>day works!</p>
+
+<div *ngFor="let diary of diaries | async">
+    <p>{{diary.date}}</p>
+    <p>{{diary.memo}}</p>
+</div>
+
+<div>
+    <p>{{message}}</p>
+</div>
+
+<p>{{diaries}</p>
