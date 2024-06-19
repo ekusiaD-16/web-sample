@@ -1,13 +1,10 @@
 
 export class Diary {
-    date : Date;
+    date : string;
     memo : string;
 
-    constructor(date:number,memo:string) {
-        this.date = new Date();
-        if(date!=0) {
-            this.date.setDate(date);
-        }
+    constructor(date:string,memo:string) {
+        this.date = date;
         this.memo = memo;
     }
 

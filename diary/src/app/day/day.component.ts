@@ -1,27 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { DiaryService } from '../servise/diary.service';
-import { Diary } from '../model/diary'
-import { Observable } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { Diary } from '../model/diary';
+import { CustomModule } from '../custom/custom.module';
 
 @Component({
   selector: 'app-day',
   standalone: true,
   imports: [
-    CommonModule,
+    CustomModule,
+  ],
+  providers: [
+    DiaryService,
   ],
   templateUrl: './day.component.html',
   styleUrl: './day.component.scss'
 })
 export class DayComponent implements OnInit {
-  diaries !: Observable<{date:string,memo:string}[]>;
+  diaries : Diary[] = [new Diary("xx","mm")];
   message : string = "";
 
-  constructor(private diaryServise: DiaryService) {}
+  constructor(private diaryService: DiaryService) {}
 
   ngOnInit(): void {
-    this.diaries = this.diaryServise.getDiaries();
-    console.log(this.diaries)
+    this.diaryService.getDiaries()
+    .subscribe( diaries => {
+      this.diaries = diaries;
+    });
   }
 
 }
