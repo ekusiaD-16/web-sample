@@ -4,6 +4,7 @@ import { Injectable, NgModule } from '@angular/core';
 import { Diary } from '../model/diary';
 import { Observable } from 'rxjs';
 import { CustomModule } from '../custom/custom.module';
+import { UserService } from './user.service';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { CustomModule } from '../custom/custom.module';
   ],
   providers: [
     HttpClient,
+    UserService,
   ]
 })
 
@@ -18,12 +20,17 @@ import { CustomModule } from '../custom/custom.module';
   providedIn: 'root'
 })
 export class DiaryService {
-  userId : string = "ito"
-  private jsonUrl : string = `assets/${this.userId}/diaries.json`;
+  userId : string = "";
+  private jsonUrl : string = "";
   diaries : Diary[];
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+  ) {
     this.diaries = [];
+    this.userId = this.userService.getUserId();
+    this.jsonUrl= `assets/${this.userId}/diaries.json`;
   }
 
   getDiaries(): Observable<Diary[]> {

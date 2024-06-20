@@ -35,12 +35,13 @@ export class DayComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const today = "xxxx-xx-xx";
+    const today = new Date();
+    const todayStr = this.toDateStr(today);
     this.diaryService.getDiaries()
     .subscribe( diaries => {
       this.diaries = diaries;
       this.diaries.forEach(diary => {
-        if(diary.date==today) {
+        if(diary.date==todayStr) {
           this.diary = diary;
         }
       });
@@ -71,6 +72,11 @@ export class DayComponent implements OnInit {
     } finally {
       return this.diary;
     }
+  }
+
+  toDateStr(date:Date) {
+    // Date() => xxxx-xx-xx
+    return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
   }
 
 }
