@@ -5,6 +5,7 @@ import { CustomModule } from '../custom/custom.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-day',
@@ -13,6 +14,7 @@ import { FormsModule } from '@angular/forms';
     CustomModule,
     MatCardModule,
     MatSlideToggle,
+    MatButtonModule,
     FormsModule,
   ],
   providers: [
@@ -43,6 +45,32 @@ export class DayComponent implements OnInit {
         }
       });
     });
+  }
+
+  nextDiary() {
+    try {
+      const current = this.diaries.indexOf(this.diary);
+      if(current+1 < this.diaries.length) {
+        this.diary = this.diaries[current + 1];
+      }
+    } catch {
+      this.diary = this.diary;
+    } finally {
+      return this.diary;
+    }
+  }
+
+  prevDiary() {
+    try {
+      const current = this.diaries.indexOf(this.diary);
+      if(current-1 >= 0) {
+        this.diary = this.diaries[current - 1];
+      }
+    } catch {
+      this.diary = this.diary;
+    } finally {
+      return this.diary;
+    }
   }
 
 }
