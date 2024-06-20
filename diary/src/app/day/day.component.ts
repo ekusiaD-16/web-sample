@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-day',
@@ -19,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
   ],
   providers: [
     DiaryService,
+    UserService,
   ],
   templateUrl: './day.component.html',
   styleUrl: './day.component.scss'
@@ -30,13 +32,17 @@ export class DayComponent implements OnInit {
 
   isWrite : boolean = false;
 
-  constructor(private diaryService: DiaryService) {
-    this.diary = new Diary("","");
+  constructor(
+    private diaryService: DiaryService,
+    private userServise : UserService,
+  ) {
+    this.diary = new Diary("2024-6-20","");
   }
 
   ngOnInit(): void {
     const today = new Date();
     const todayStr = this.toDateStr(today);
+    this.message = todayStr;
     this.diaryService.getDiaries()
     .subscribe( diaries => {
       this.diaries = diaries;

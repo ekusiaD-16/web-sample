@@ -1,24 +1,59 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgModule } from '@angular/core';
 import { User } from '../model/user';
+import { HttpClient } from '@angular/common/http';
+import { CustomModule } from '../custom/custom.module';
+import { Observable } from 'rxjs';
+
+@NgModule({
+  imports: [
+    CustomModule,
+  ],
+  providers: [
+    HttpClient,
+  ]
+})
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor() {}
+  jsonUrl : string;
+  user    : User;
 
-   createUser() {}
+  constructor(
+    private http: HttpClient,
+  ) {
+    this.jsonUrl = `assets/users.json`;
+    this.user    = new User("sakaguchi","",""); 
+  }
 
-   deleteUser() {}
+  createUser() {}
 
-   updateUser() {}
+  setUser(userId:string) {
+    this.user = this.getUser(userId);
+  }
 
-   getUser():User {
-    return new User("sakaguchi","sakaguchi@email.com","daisuke");
+  deleteUser() {}
+
+  updateUser() {}
+  
+  getUsers():Observable<User[]> {
+    return this.http.get<User[]>(this.jsonUrl);
    }
 
-   getUserId() {
-    return new User("sakaguchi","sakaguchi@email.com","daisuke").userId;
+  getUser(userId:string) {
+    var user : any;
+    this.getUsers()
+      .subscribe( users => {
+        users.find( user => {
+          user.userId == userId;
+        }); 
+    });
+    return user;
+  }
+
+   getUserId():string {
+    return this.user.userId;
    }
 }

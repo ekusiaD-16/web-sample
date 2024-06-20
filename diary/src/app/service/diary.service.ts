@@ -20,8 +20,8 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class DiaryService {
-  userId : string = "";
-  private jsonUrl : string = "";
+  userId : string;
+  private jsonUrl : string;
   diaries : Diary[];
 
   constructor(
@@ -30,6 +30,7 @@ export class DiaryService {
   ) {
     this.diaries = [];
     this.userId = this.userService.getUserId();
+    //this.userId = "sakaguchi";
     this.jsonUrl= `assets/${this.userId}/diaries.json`;
   }
 
