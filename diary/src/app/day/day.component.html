@@ -1,5 +1,31 @@
-<p>day works!</p>
-
-<div *ngFor="let diary of diaries">
-    <p>{{diary.date}} : {{diary.memo}}</p>
+<div>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{diary.date}}</mat-card-title>
+            <div class="toggle"><mat-slide-toggle [(ngModel)]="isWrite"></mat-slide-toggle></div>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngIf="isWrite; else show">
+                <p>
+                トイレ回数[小・大] : 
+                    <input type="number" [(ngModel)]="diary.toilet[0]">
+                    <input type="number" [(ngModel)]="diary.toilet[1]">
+                </p>
+                <p>体温             :<input type="number" [(ngModel)]="diary.bodyTemp"></p>
+                
+                <mat-card>
+                    <h5>MEMO</h5>
+                    <input type="text" [(ngModel)]="diary.memo">
+                </mat-card>
+            </div>
+            <ng-template #show>
+                <p>トイレ回数[小・大] : [{{diary.toilet[0]}},{{diary.toilet[1]}}]</p>
+                <p>体温             :{{diary.bodyTemp}} ℃</p>
+                <mat-card>
+                    <h5>MEMO</h5>
+                    <p>{{diary.memo}}</p>
+                </mat-card>
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
 </div>
