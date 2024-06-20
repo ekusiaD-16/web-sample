@@ -6,7 +6,7 @@ import { WeekComponent } from './week/week.component';
 import { MonthComponent } from './month/month.component';
 
 export const routes: Routes = [
-    { path: "",     component: WeekComponent},
+    { path: "",     component: DayComponent},
     { path: "day",  component: DayComponent},
     { path: "week", component: WeekComponent},
     { path: "month",component: MonthComponent},

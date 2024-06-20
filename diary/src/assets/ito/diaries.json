@@ -1,0 +1,14 @@
+[
+    {
+        "date" : "2024-06-20",
+        "toilet" : [5,3],
+        "bodyTemp" : 36.5,
+        "memo" : "aaaa"
+    },
+    {
+        "date" : "yyyy-yy-yy",
+        "toilet" : [4,3],
+        "bodyTemp" : 36.8,
+        "memo" : "bbbb"
+    }
+]

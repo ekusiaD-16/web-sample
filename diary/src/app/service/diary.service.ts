@@ -18,7 +18,8 @@ import { CustomModule } from '../custom/custom.module';
   providedIn: 'root'
 })
 export class DiaryService {
-  private jsonUrl : string = 'assets/diaries.json';
+  userId : string = "ito"
+  private jsonUrl : string = `assets/${this.userId}/diaries.json`;
   diaries : Diary[];
 
   constructor(private http: HttpClient) {
