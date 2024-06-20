@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DiaryService } from '../servise/diary.service';
+import { DiaryService } from '../service/diary.service';
 import { Diary } from '../model/diary';
 import { CustomModule } from '../custom/custom.module';
 import { MatCardModule } from '@angular/material/card';
