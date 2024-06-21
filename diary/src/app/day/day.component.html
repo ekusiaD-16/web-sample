@@ -1,5 +1,5 @@
 <div>
-    <mat-card *ngIf="diary">
+    <mat-card>
         <mat-card-header>
             <mat-card-title>{{diary.date}}</mat-card-title>
             <div class="toggle"><mat-slide-toggle [(ngModel)]="isWrite"></mat-slide-toggle></div>
@@ -33,5 +33,7 @@
 </div>
 
 <div *ngIf="message">
-    <p>message : {{message}}</p>
+    <div *ngFor="let m of message">
+        <p>{{m}}</p>
+    </div>
 </div>

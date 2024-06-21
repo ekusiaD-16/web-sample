@@ -28,7 +28,7 @@ import { UserService } from '../service/user.service';
 export class DayComponent implements OnInit {
   diaries : Diary[] = [];
   diary   : Diary;
-  message : string = "";
+  message : string[] = [];
 
   isWrite : boolean = false;
 
@@ -36,7 +36,7 @@ export class DayComponent implements OnInit {
     private diaryService: DiaryService,
     private userServise : UserService,
   ) {
-    this.diary = new Diary("x","y");
+    this.diary = new Diary("","");
   }
 
   ngOnInit() {
@@ -60,13 +60,13 @@ export class DayComponent implements OnInit {
         this.diary = diary;
       });
     } catch(e) {
-      this.message = `${e}`;
+      this.message.push(`error : ${e}`);
     }
   }
 
   nextDiary() {
     const currentDateStr = this.diary.date;
-    const nextDate = new Date();
+    const nextDate = this.toDate(this.diary.date);
     nextDate.setDate(
       this.toDate(currentDateStr).getDate() + 1
     );
@@ -82,7 +82,7 @@ export class DayComponent implements OnInit {
 
   prevDiary() {
     const currentDateStr = this.diary.date;
-    const prevDate = new Date();
+    const prevDate = this.toDate(this.diary.date);
     prevDate.setDate(
       this.toDate(currentDateStr).getDate() - 1
     );
