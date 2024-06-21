@@ -22,6 +22,7 @@ import { UserService } from './user.service';
 })
 export class DiaryService {
   userId : string;
+  month  : number;
   private jsonUrl : string;
   diaries : Diary[];
 
@@ -31,7 +32,8 @@ export class DiaryService {
   ) {
     this.diaries = [];
     this.userId = this.userService.getUserId();
-    this.jsonUrl= `assets/${this.userId}/diaries.json`;
+    this.month  = new Date().getMonth();
+    this.jsonUrl= `assets/${this.userId}/diaries-6.json`;
   }
 
   setDiary(diary:Diary) {

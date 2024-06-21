@@ -13,10 +13,10 @@ function toDateStr(date) {
     // Date() => xxxx-xx-xx
     return "".concat(date.getFullYear(), "-").concat(date.getMonth() + 1, "-").concat(date.getDate());
 }
-function createDiaryOfMonth(year) {
+function createDiaryOfMonth(year, month) {
     var dates = [];
-    var date = new Date(year, 0, 1);
-    while (date.getFullYear() === year) {
+    var date = new Date(year, month, 1);
+    while (date.getMonth() === month) {
         dates.push({
             date: toDateStr(date),
             toilet: [0, 0],
@@ -27,15 +27,20 @@ function createDiaryOfMonth(year) {
     }
     return dates;
 }
-var userId = "sakaguchi";
-var filePath = "assets/".concat(userId, "/diaries.json");
+// 1 year / userId
 var year = 2024;
-var dates = createDiaryOfMonth(year);
-fs.writeFile(filePath, JSON.stringify(dates, null, 4), "utf-8", function (err) {
-    if (err) {
-        console.error("error: ".concat(err));
-    }
-    else {
-        console.log("file is created for ".concat(filePath));
-    }
-});
+var userId = "sakaguchi";
+console.log("start to create");
+for (var month = 0; month < 12; month++) {
+    console.log("".concat(month + 1, " month"));
+    var dates = createDiaryOfMonth(year, month);
+    var filePath = "assets/".concat(userId, "/diaries-").concat(month + 1, ".json");
+    fs.writeFile(filePath, JSON.stringify(dates, null, 4), "utf-8", function (err) {
+        if (err) {
+            console.error("error: ".concat(err));
+        }
+        else {
+            console.log("file is created for ".concat(filePath));
+        }
+    });
+}
