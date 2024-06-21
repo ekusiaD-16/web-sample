@@ -39,58 +39,75 @@ export class DayComponent implements OnInit {
     this.diary = new Diary("x","y");
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.setDiaries();
     this.setDiary();
   }
 
-  async setDiary() {
-    const today = new Date();
-    const todayStr = this.toDateStr(today);
-    this.message = todayStr;
+  setDiaries() {
     this.diaryService.getDiaries()
     .subscribe( diaries => {
       this.diaries = diaries;
-      try {
-        const diary = this.diaries.find( diary => {diary.date==todayStr});
-        if (diary) {
-          this.diary = diary;
-          this.message = diary.date;
-        }
-      } catch {
-        this.message = "diary is not found";
-      }
     });
   }
 
-  nextDiary() {
+  setDiary() {
+    const today = new Date();
+    const todayStr = this.toDateStr(today);
     try {
-      const current = this.diaries.indexOf(this.diary);
-      if(current+1 < this.diaries.length) {
-        this.diary = this.diaries[current + 1];
-      }
-    } catch {
-      this.diary = this.diary;
-    } finally {
-      return this.diary;
+      this.diaryService.getDiariyByDate(todayStr)
+      .subscribe( diary => {
+        this.diary = diary;
+      });
+    } catch(e) {
+      this.message = `${e}`;
     }
   }
 
+  nextDiary() {
+    const currentDateStr = this.diary.date;
+    const nextDate = new Date();
+    nextDate.setDate(
+      this.toDate(currentDateStr).getDate() + 1
+    );
+    const nextDateStr = this.toDateStr(nextDate);
+    this.diaryService.getDiariyByDate(nextDateStr)
+    .subscribe(
+      (diary) => {
+        if(diary.date) {
+          this.diary = diary;
+        }
+      });
+  }
+
   prevDiary() {
-    try {
-      const current = this.diaries.indexOf(this.diary);
-      if(current-1 >= 0) {
-        this.diary = this.diaries[current - 1];
-      }
-    } catch {
-      this.diary = this.diary;
-    } finally {
-      return this.diary;
-    }
+    const currentDateStr = this.diary.date;
+    const prevDate = new Date();
+    prevDate.setDate(
+      this.toDate(currentDateStr).getDate() - 1
+    );
+    const prevDateStr = this.toDateStr(prevDate);
+    this.diaryService.getDiariyByDate(prevDateStr)
+    .subscribe(
+      (diary) => {
+        if(diary.date) {
+          this.diary = diary;
+        }
+      });
   }
 
   toDateStr(date:Date) {
     // Date() => xxxx-xx-xx
     return `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+  }
+
+  toDate(dateStr:string):Date {
+    let parts = dateStr.split("-");
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1])-1;
+    const date = parseInt(parts[2]);
+    const newDate = new Date(year,month,date);
+    return newDate;
   }
 
 }

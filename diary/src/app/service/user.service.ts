@@ -2,7 +2,8 @@ import { Injectable, NgModule } from '@angular/core';
 import { User } from '../model/user';
 import { HttpClient } from '@angular/common/http';
 import { CustomModule } from '../custom/custom.module';
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
+import { map } from 'rxjs/operators'
 
 @NgModule({
   imports: [
@@ -31,7 +32,11 @@ export class UserService {
   createUser() {}
 
   setUser(userId:string) {
-    this.user = this.getUser(userId);
+    this.getUserById(userId).subscribe(
+      user => {
+        this.user = user;
+      }
+    )
   }
 
   deleteUser() {}
@@ -42,15 +47,20 @@ export class UserService {
     return this.http.get<User[]>(this.jsonUrl);
    }
 
-  getUser(userId:string) {
-    var user : any;
-    this.getUsers()
-      .subscribe( users => {
-        users.find( user => {
-          user.userId == userId;
-        }); 
-    });
-    return user;
+  getUserById(userId:string) {
+    try {
+      return this.http.get<User[]>(this.jsonUrl)
+      .pipe(
+        map( users => {
+          const user = users.find( user=>{user.userId===userId});
+          if(user) { return user }
+          else     { throw new Error(`not found ${userId}`) }
+        })
+      );
+    }
+    catch(e) {
+      throw e;
+    }
   }
 
    getUserId():string {
