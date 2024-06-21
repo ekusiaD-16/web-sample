@@ -64,6 +64,13 @@ export class DayComponent implements OnInit {
     }
   }
 
+  updateDiaryToAPI() {
+    if (!this.isWrite) {
+      this.diaryService.setDiary(this.diary);
+      this.message.push(`call updateDiaryToAPI ${JSON.stringify(this.diary)}`);
+    }
+  }
+
   nextDiary() {
     const currentDateStr = this.diary.date;
     const nextDate = this.toDate(this.diary.date);

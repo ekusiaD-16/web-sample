@@ -31,8 +31,20 @@ export class DiaryService {
   ) {
     this.diaries = [];
     this.userId = this.userService.getUserId();
-    //this.userId = "sakaguchi";
     this.jsonUrl= `assets/${this.userId}/diaries.json`;
+  }
+
+  setDiary(diary:Diary) {
+    this.getDiaries().subscribe(
+      diaries => {
+        const targetDiaryIndex = diaries.findIndex(d=>{d.date===diary.date});
+        if(targetDiaryIndex) {
+          diaries[targetDiaryIndex] = diary;
+          this.http.put(this.jsonUrl, diaries);
+          return;
+        }
+      }
+    );
   }
 
   getDiaries(): Observable<Diary[]> {

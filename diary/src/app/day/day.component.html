@@ -2,7 +2,9 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>{{diary.date}}</mat-card-title>
-            <div class="toggle"><mat-slide-toggle [(ngModel)]="isWrite"></mat-slide-toggle></div>
+            <div class="toggle">
+                <mat-slide-toggle [(ngModel)]="isWrite" (change)="updateDiaryToAPI()"></mat-slide-toggle>
+            </div>
         </mat-card-header>
         <mat-card-content>
             <div *ngIf="isWrite; else show">
