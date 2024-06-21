@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DiaryService } from '../service/diary.service';
 import { Diary } from '../model/diary';
 import { CustomModule } from '../custom/custom.module';
@@ -36,21 +36,29 @@ export class DayComponent implements OnInit {
     private diaryService: DiaryService,
     private userServise : UserService,
   ) {
-    this.diary = new Diary("2024-6-20","");
+    this.diary = new Diary("x","y");
   }
 
   ngOnInit(): void {
+    this.setDiary();
+  }
+
+  async setDiary() {
     const today = new Date();
     const todayStr = this.toDateStr(today);
     this.message = todayStr;
     this.diaryService.getDiaries()
     .subscribe( diaries => {
       this.diaries = diaries;
-      this.diaries.forEach(diary => {
-        if(diary.date==todayStr) {
+      try {
+        const diary = this.diaries.find( diary => {diary.date==todayStr});
+        if (diary) {
           this.diary = diary;
+          this.message = diary.date;
         }
-      });
+      } catch {
+        this.message = "diary is not found";
+      }
     });
   }
 
