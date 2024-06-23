@@ -33,10 +33,10 @@ export class DiaryService {
     this.diaries = [];
     this.userId = this.userService.getUserId();
     this.month  = new Date().getMonth();
-    //this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
-    if(process.env['EXPRESS_API_URI']) {
-      this.jsonUrl = process.env['EXPRESS_API_URI'];
-    }
+    this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
+    //if(process.env['EXPRESS_API_URI']) {
+    //  this.jsonUrl = process.env['EXPRESS_API_URI'];
+    //}
     
   }
 
