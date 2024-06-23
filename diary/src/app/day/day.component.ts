@@ -60,7 +60,7 @@ export class DayComponent implements OnInit {
         this.diary = diary;
       });
     } catch(e) {
-      this.message.push(`error : ${e}`);
+      this.message.push(`error : ${JSON.stringify(e)}`);
     }
   }
 

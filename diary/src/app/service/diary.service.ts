@@ -23,7 +23,7 @@ import { UserService } from './user.service';
 export class DiaryService {
   userId : string;
   month  : number;
-  private jsonUrl : string;
+  private jsonUrl : string ="";
   diaries : Diary[];
 
   constructor(
@@ -33,8 +33,11 @@ export class DiaryService {
     this.diaries = [];
     this.userId = this.userService.getUserId();
     this.month  = new Date().getMonth();
-    //this.jsonUrl= `assets/${this.userId}/diaries-6.json`;
-    this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
+    //this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
+    if(process.env['EXPRESS_API_URI']) {
+      this.jsonUrl = process.env['EXPRESS_API_URI'];
+    }
+    
   }
 
   setDiary(diary:Diary) {
@@ -58,13 +61,9 @@ export class DiaryService {
 
   getDiariyByDate(date:string): Observable<Diary> {
     try {
-      return this.http.get<Diary[]>(this.jsonUrl).pipe(
-        map( diaries => {
-          const diary = diaries.find( diary => diary.date===date);
-          if(diary) { return diary }
-          else      { throw new Error(`not found ${date}`)}
-        })
-      );
+      const apiUri = `api/diary/${date}`;
+      console.log(`API URI = ${this.jsonUrl + apiUri}`);
+      return this.http.get<Diary>(this.jsonUrl + apiUri);
     }
     catch(e) {
       throw e;
