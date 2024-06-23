@@ -55,7 +55,7 @@ export class DayComponent implements OnInit {
     const today = new Date();
     const todayStr = this.toDateStr(today);
     try {
-      this.diaryService.getDiariyByDate(todayStr)
+      this.diaryService.getDiaryByDate(todayStr)
       .subscribe( diary => {
         this.diary = diary;
       });
@@ -66,8 +66,11 @@ export class DayComponent implements OnInit {
 
   updateDiaryToAPI() {
     if (!this.isWrite) {
-      this.diaryService.setDiary(this.diary);
-      this.message.push(`call updateDiaryToAPI ${JSON.stringify(this.diary)}`);
+      this.message.push(`call updateDiaryToAPI(${JSON.stringify(this.diary)})`);
+      //this.diaryService.setDiary(this.diary)
+      //  .subscribe( res => {
+      //    this.message.push(`response : ${res}`);
+      //  });
     }
   }
 
@@ -78,7 +81,7 @@ export class DayComponent implements OnInit {
       this.toDate(currentDateStr).getDate() + 1
     );
     const nextDateStr = this.toDateStr(nextDate);
-    this.diaryService.getDiariyByDate(nextDateStr)
+    this.diaryService.getDiaryByDate(nextDateStr)
     .subscribe(
       (diary) => {
         if(diary.date) {
@@ -94,7 +97,7 @@ export class DayComponent implements OnInit {
       this.toDate(currentDateStr).getDate() - 1
     );
     const prevDateStr = this.toDateStr(prevDate);
-    this.diaryService.getDiariyByDate(prevDateStr)
+    this.diaryService.getDiaryByDate(prevDateStr)
     .subscribe(
       (diary) => {
         if(diary.date) {

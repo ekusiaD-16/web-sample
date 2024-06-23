@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators'
 import { CustomModule } from '../custom/custom.module';
 import { UserService } from './user.service';
+import { environment } from '../../environments/environment';
 
 @NgModule({
   imports: [
@@ -34,23 +35,15 @@ export class DiaryService {
     this.userId = this.userService.getUserId();
     this.month  = new Date().getMonth();
     this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
-    //if(process.env['EXPRESS_API_URI']) {
-    //  this.jsonUrl = process.env['EXPRESS_API_URI'];
+    //if(environment.apiUrl) {
+    //  this.jsonUrl = environment.apiUrl;
     //}
     
   }
 
-  setDiary(diary:Diary) {
-    this.getDiaries().subscribe(
-      diaries => {
-        const targetDiaryIndex = diaries.findIndex(d=>{d.date===diary.date});
-        if(targetDiaryIndex) {
-          diaries[targetDiaryIndex] = diary;
-          this.http.put(this.jsonUrl, diaries);
-          return;
-        }
-      }
-    );
+  updateDiary(diary:Diary):Observable<Diary> {
+    const apiUri = `api/create/diary`;
+    return this.http.post<Diary>(this.jsonUrl + apiUri, diary);
   }
 
   getDiaries(): Observable<Diary[]> {
@@ -59,7 +52,7 @@ export class DiaryService {
     return this.http.get<Diary[]>(this.jsonUrl + apiUri);
   }
 
-  getDiariyByDate(date:string): Observable<Diary> {
+  getDiaryByDate(date:string): Observable<Diary> {
     try {
       const apiUri = `api/diary/${date}`;
       console.log(`API URI = ${this.jsonUrl + apiUri}`);
