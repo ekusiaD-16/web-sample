@@ -33,7 +33,8 @@ export class DiaryService {
     this.diaries = [];
     this.userId = this.userService.getUserId();
     this.month  = new Date().getMonth();
-    this.jsonUrl= `assets/${this.userId}/diaries-6.json`;
+    //this.jsonUrl= `assets/${this.userId}/diaries-6.json`;
+    this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
   }
 
   setDiary(diary:Diary) {
@@ -50,7 +51,9 @@ export class DiaryService {
   }
 
   getDiaries(): Observable<Diary[]> {
-    return this.http.get<Diary[]>(this.jsonUrl);
+    const apiUri = `api/diaries`;
+    console.log(`API URI = ${this.jsonUrl + apiUri}`);
+    return this.http.get<Diary[]>(this.jsonUrl + apiUri);
   }
 
   getDiariyByDate(date:string): Observable<Diary> {
