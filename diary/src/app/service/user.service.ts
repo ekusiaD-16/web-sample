@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { CustomModule } from '../custom/custom.module';
 import { Observable, pipe } from 'rxjs';
 import { map } from 'rxjs/operators'
+import { Router } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -24,9 +25,10 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
+    private router: Router,
   ) {
-    this.jsonUrl = `assets/users.json`;
-    this.user    = new User("sakaguchi","",""); 
+    this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
+    this.user    = new User("","","");
   }
 
   createUser() {}
@@ -35,35 +37,39 @@ export class UserService {
     this.getUserById(userId).subscribe(
       user => {
         this.user = user;
-      }
-    )
+      });
+  }
+
+  login(loginUser:User) {
+    this.getUserById(loginUser.userId).subscribe(
+      user => {
+        if(user.password == loginUser.password ) {
+          user.isLogin = true;
+          sessionStorage.setItem("loginUserId", user.userId);
+          console.log(`${JSON.stringify(user)}`);
+          this.router.navigate(["/"]);
+        } else {
+          this.router.navigate(["login"]);
+        }
+      });
   }
 
   deleteUser() {}
 
-  updateUser() {}
+  updateUser(newUser:User) {
+  }
   
   getUsers():Observable<User[]> {
     return this.http.get<User[]>(this.jsonUrl);
    }
 
   getUserById(userId:string) {
-    try {
-      return this.http.get<User[]>(this.jsonUrl)
-      .pipe(
-        map( users => {
-          const user = users.find( user=>{user.userId===userId});
-          if(user) { return user }
-          else     { throw new Error(`not found ${userId}`) }
-        })
-      );
-    }
-    catch(e) {
-      throw e;
-    }
+    const apiUri = `api/user/${userId}`;
+    return this.http.get<User>(this.jsonUrl + apiUri);
   }
 
    getUserId():string {
-    return this.user.userId;
+    const userId = sessionStorage.getItem("loginUserId");
+    return userId!==null? userId : "";
    }
 }

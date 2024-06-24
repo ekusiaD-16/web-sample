@@ -1,0 +1,18 @@
+<div>
+    <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>userId:<input type="text" [(ngModel)]="user.userId"></p>
+        <p>password:<input type="password" [(ngModel)]="user.password"></p>
+        <p>email:<input type="email" [(ngModel)]="user.email"></p>
+        <p><button mat-button (click)="onClickLogin()">login</button></p>
+        <p><button mat-button (click)="onClickAssign()">assign new account</button></p>
+    </mat-card-content>
+</div>
+
+<div *ngIf="message">
+    <div *ngFor="let m of message">
+        <p>{{m}}</p>
+    </div>
+</div>

@@ -1,5 +1,10 @@
 <app-header></app-header>
 
-<app-body></app-body>
+<div *ngIf="userId!==null; else login">
+    <app-body></app-body>
+</div>
+<ng-template #login>
+    <app-login userId=userId></app-login>
+</ng-template>
 
 <app-footer></app-footer>
