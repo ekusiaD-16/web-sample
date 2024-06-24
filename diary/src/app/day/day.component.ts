@@ -66,11 +66,11 @@ export class DayComponent implements OnInit {
 
   updateDiaryToAPI() {
     if (!this.isWrite) {
-      this.message.push(`call updateDiaryToAPI(${JSON.stringify(this.diary)})`);
-      //this.diaryService.setDiary(this.diary)
-      //  .subscribe( res => {
-      //    this.message.push(`response : ${res}`);
-      //  });
+      //this.message.push(`call updateDiaryToAPI(${JSON.stringify(this.diary)})`);
+      this.diaryService.updateDiary(this.diary)
+        .subscribe( res => {
+          //this.message.push(`response : ${res}`);
+        });
     }
   }
 

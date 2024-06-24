@@ -41,9 +41,9 @@ export class DiaryService {
     
   }
 
-  updateDiary(diary:Diary):Observable<Diary> {
-    const apiUri = `api/create/diary`;
-    return this.http.post<Diary>(this.jsonUrl + apiUri, diary);
+  updateDiary(diary:Diary):Observable<any> {
+    const apiUri = `api/update/diary/${diary.date}`;
+    return this.http.put<any>(this.jsonUrl + apiUri, diary);
   }
 
   getDiaries(): Observable<Diary[]> {
