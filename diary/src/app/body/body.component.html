@@ -2,13 +2,24 @@
     <mat-card class="card">
         <div class="content">
             <div class="span-selector">
-                <mat-button-toggle-group value="day">
+                <mat-button-toggle-group [(ngModel)]="toggle">
                     <mat-button-toggle value="day" (change)="onChange($event.value)">day</mat-button-toggle>
                     <mat-button-toggle value="week" (change)="onChange($event.value)">week</mat-button-toggle>
                     <mat-button-toggle value="month" (change)="onChange($event.value)">month</mat-button-toggle>
                 </mat-button-toggle-group>
             </div>
-            <router-outlet></router-outlet>
+            <div [ngSwitch]="toggle">
+                <div *ngSwitchCase="'day'"><app-day></app-day></div>
+                <div *ngSwitchCase="'week'"><app-week></app-week></div>
+                <div *ngSwitchCase="'month'"><app-month></app-month></div>
+                <div *ngSwitchDefault><p>---</p></div>
+            </div>
         </div>
     </mat-card>
 </div>
+
+<!-- <div *ngIf="message">
+    <div *ngFor="let m of message">
+        <p>{{m}}</p>
+    </div>
+</div> -->

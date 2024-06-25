@@ -47,9 +47,9 @@ export class UserService {
           user.isLogin = true;
           sessionStorage.setItem("loginUserId", user.userId);
           console.log(`${JSON.stringify(user)}`);
-          this.router.navigate(["/"]);
+          this.router.navigate(["/body"]);
         } else {
-          this.router.navigate(["login"]);
+          //this.router.navigate(["login"]);
         }
       });
   }

@@ -22,7 +22,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class DiaryService {
-  userId : string;
+  userId : any;
   month  : number;
   private jsonUrl : string ="";
   diaries : Diary[];
@@ -33,6 +33,9 @@ export class DiaryService {
   ) {
     this.diaries = [];
     this.userId = this.userService.getUserId();
+    if(sessionStorage.getItem("loginUserId")) {
+      this.userId = sessionStorage.getItem("loginUserId");
+    }
     this.month  = new Date().getMonth();
     this.jsonUrl = `https://diary-backend-9dj8.onrender.com/`;
     //if(environment.apiUrl) {

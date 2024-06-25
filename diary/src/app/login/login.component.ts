@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { User } from '../model/user';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
+    HttpClientModule,
     FormsModule,
     MatButtonModule,
     MatCardModule,
@@ -40,6 +41,7 @@ export class LoginComponent {
   onClickLogin() {
     this.message.push(`${JSON.stringify(this.user)}`);
     this.userService.login(this.user);
+    this.router.navigate(["/body"]);
   }
 
   onClickAssign() {}
